@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sable's Epic Trail Adventures</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #2d5a27 0%, #5d8a54 50%, #87ceeb 100%);
+            min-height: 100vh;
+            color: #2d4a22;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #2d4a22;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .dog-emoji {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .current-location {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .location-name {
+            font-size: 1.3em;
+            color: #2d4a22;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #81C784);
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .log-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .log-title {
+            font-size: 1.2em;
+            color: #2d4a22;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .accomplishment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .accomplishment-btn {
+            background: #87ceeb;
+            border: none;
+            padding: 15px 10px;
+            border-radius: 10px;
+            color: #2d4a22;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        .accomplishment-btn:hover {
+            background: #5fb3d9;
+            transform: translateY(-2px);
+        }
+
+        .accomplishment-btn:active {
+            transform: translateY(0);
+        }
+
+        .story-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .story-text {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .sable-says {
+            background: #f0f8e8;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+            margin: 15px 0;
+        }
+
+        .achievements {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .achievement-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .achievement-emoji {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .next-location {
+            text-align: center;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f8e8;
+            border-radius: 10px;
+            color: #2d4a22;
+            font-weight: bold;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .confetti {
+            position: absolute;
+            font-size: 20px;
+            animation: fall 3s linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .range-rover {
+            font-size: 1.2em;
+            margin: 10px 0;
+            text-align: center;
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 8px;
+            border: 2px dashed #856404;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            .accomplishment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sable's Epic Trail Adventures</h1>
+            <div class="dog-emoji">🐾</div>
+            <p>Join Sable the Black Lab on her most ridiculous adventure yet!</p>
+        </div>
+
+        <div class="progress-section">
+            <div class="current-location">
+                <div class="location-name" id="currentLocation">West Virginia Mountains</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <p id="progressText">Progress: 0/10 adventures needed</p>
+            </div>
+        </div>
+
+        <div class="log-section">
+            <h3 class="log-title">🎯 Log Your Real-World Adventures!</h3>
+            <div class="accomplishment-grid">
+                <button class="accomplishment-btn" onclick="logAccomplishment('run')">🏃‍♀️ Went Running</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('knit')">🧶 Knitting Time</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('work')">💼 Work Win</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('coffee')">☕ Fancy Coffee</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('ski')">⛷️ Cross-Country Ski</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('tv')">📺 Bad TV Show</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('good')">✨ Unexpected Good Thing</button>
+                <button class="accomplishment-btn" onclick="logAccomplishment('misc')">🌟 Other Adventure</button>
+            </div>
+        </div>
+
+        <div class="story-section">
+            <div class="story-text" id="storyText">
+                Welcome to Sable's Epic Trail Adventures! Sable is sniffing around the West Virginia mountains, tail wagging with excitement. She's discovered what appears to be an old hiking trail map, but it's covered in mysterious paw prints...
+            </div>
+            <div class="sable-says" id="sableSays">
+                "Woof! I smell adventure ahead! Let's see what ridiculous treasures we can find on these trails. I have a feeling we might even encounter a fancy Range Rovah somewhere unexpected!"
+            </div>
+        </div>
+
+        <div class="achievements">
+            <h3>🏆 Recent Adventures</h3>
+            <div id="achievementsList">
+                <p style="text-align: center; color: #666; font-style: italic;">No adventures logged yet - time to start exploring!</p>
+            </div>
+            <div class="next-location" id="nextLocation">
+                Next Destination: Hayward, Wisconsin (Home of the Birkie!)
+            </div>
+        </div>
+    </div>
+
+    <div class="celebration" id="celebration"></div>
+
+    <script>
+        // Game state
+        let gameState = {
+            currentLocationIndex: 0,
+            progress: 0,
+            totalAchievements: 0,
+            achievements: []
+        };
+
+        // Locations and their stories
+        const locations = [
+            {
+                name: "West Virginia Mountains",
+                target: 10,
+                nextLocation: "Hayward, Wisconsin (Home of the Birkie!)",
+                stories: [
+                    "Sable discovers a peculiar contraption with red liquid flowing through tubes. 'What is this blood blopper doing on a hiking trail?' she wonders, tilting her head in confusion.",
+                    "A dignified tabby cat appears on the trail, then promptly slips on a banana peel left by careless hikers. Sable watches as Fritzy seems genuinely embarrassed by the mishap!",
+                    "Sable encounters a park ranger who looks suspiciously like Mrs. Lynde. 'Just like a man to leave these energy bar wrappers everywhere!' she declares while shaking her fist.",
+                    "At a trail junction, Sable finds two bottles - one labeled 'Water' and one labeled 'Raspberry Cordial.' She wisely chooses the water, having learned from Anne's mistakes!",
+                    "Sable discovers a pristine campsite with a sign that says 'Please Keep Clean.' Her tail wags mischievously as she thinks 'Time to Make a Mess!' But then she decides to be a good dog instead."
+                ],
+                celebration: "Somehow, a shiny Range Rovah has appeared at the trailhead, completely out of place but looking quite fancy!"
+            },
+            {
+                name: "Hayward, Wisconsin - Birkie Trails",
+                target: 12,
+                nextLocation: "Prince Edward Island Dreams",
+                stories: [
+                    "Sable bounds through the snowy Birkie trails, her paws making perfect prints in the fresh powder. She finds a mysterious blood blopper half-buried in a snowbank - who brings laboratory equipment to a ski race?",
+                    "A cross-country skier zooms past, and Sable spots a familiar figure on a bike nearby, cheering and offering encouragement just like old times. Her tail wags with joy!",
+                    "Sable meets a very embarrassed Fritzy, who somehow ended up in Wisconsin and is wearing tiny ski boots. He's clearly not thrilled about his winter fashion choices.",
+                    "At the finish line, Mrs. Lynde is volunteering and critiquing everyone's form. 'Just like a man to forget to wax his skis properly!' she huffs while handing out raspberry cordial to finishers.",
+                    "Sable finds a cozy cabin where someone has definitely been making a mess with hot chocolate and marshmallows. The chaos is so perfect, she decides to add a few paw prints to the fun!"
+                ],
+                celebration: "The Range Rovah is now somehow parked in the middle of a frozen lake, and no one can figure out how it got there!"
+            },
+            {
+                name: "Prince Edward Island Dreams",
+                target: 15,
+                nextLocation: "Silverton, Colorado - High Altitude Challenge",
+                stories: [
+                    "Sable trots through the red dirt roads of PEI, discovering Anne's old haunts. She finds a blood blopper in the Haunted Wood - even Anne would find this mysterious!",
+                    "At Green Gables, Sable meets a cat who looks exactly like Fritzy, sitting in Marilla's garden looking thoroughly embarrassed about knocking over the raspberry cordial.",
+                    "Mrs. Lynde appears at every turn, commenting on Sable's adventure choices. 'Just like a man... er, dog... to track mud through my pristine island!' she declares.",
+                    "Sable discovers Diana's house, where there's been a delightful raspberry cordial party. The evidence suggests someone may have made quite a mess, but in the most wonderful way!",
+                    "Along the coastline, Sable finds evidence of the most epic Make a Mess game ever - seashells arranged in impossible patterns, driftwood sculptures, and sand castles that defy gravity."
+                ],
+                celebration: "The Range Rovah has somehow made it to PEI and is now parked next to a lobster boat, looking absolutely ridiculous but oddly at home!"
+            },
+            {
+                name: "Silverton, Colorado - High Altitude Challenge",
+                target: 18,
+                nextLocation: "Antelope Canyon Ultra Finish",
+                stories: [
+                    "At 11,000 feet, Sable's nose discovers a high-altitude blood blopper that's apparently been helping with oxygen levels - though how it works remains a complete mystery!",
+                    "Even mountain goats are impressed by Sable's endurance, though one particularly embarrassed goat (who reminds her of Fritzy) keeps slipping on the rocky terrain.",
+                    "A mountain ranger channels Mrs. Lynde energy: 'Just like a man to attempt a 50-mile race without proper altitude training!' while Sable just pants happily.",
+                    "At an aid station, volunteers are serving raspberry cordial as a recovery drink - hopefully they've learned from Anne's mistakes and checked the bottles twice!",
+                    "The mountain trail is beautifully messy with wildflowers everywhere. Sable decides this is nature's ultimate Make a Mess game, and she's winning!"
+                ],
+                celebration: "The Range Rovah is now parked on a mountaintop, and mountain climbers are using it as a landmark. 'Turn left at the impossibly placed luxury SUV!'"
+            },
+            {
+                name: "Antelope Canyon Ultra Finish",
+                target: 20,
+                nextLocation: "You've completed the ultimate adventure!",
+                stories: [
+                    "In the stunning slot canyons, Sable discovers ancient blood blopper petroglyphs - apparently this mystery goes back centuries!",
+                    "A desert fox appears, looking as embarrassed as Fritzy ever did, after getting stuck in a narrow canyon passage. Sable helps guide him out with encouraging barks.",
+                    "The race director sounds suspiciously like Mrs. Lynde: 'Just like a man to run through a desert without enough water bottles!' But everyone finishes safely.",
+                    "At the finish line, there's a celebration with raspberry cordial for everyone - and this time, they definitely checked the labels carefully!",
+                    "The entire desert landscape looks like the most epic Make a Mess game ever - with red rock formations that seem designed by playful giants!"
+                ],
+                celebration: "The Range Rovah has completed the most impossible journey of all - it's now somehow parked inside Antelope Canyon itself, and photographers are lining up to capture this absurd miracle!"
+            }
+        ];
+
+        // Sable's responses to different accomplishments
+        const sableResponses = {
+            run: [
+                "Woof! My paws are tingling with excitement! Your running adventure gives me energy to explore further down the trail!",
+                "I can practically smell the trail dust from your run! This calls for some serious tail-wagging and maybe finding a suspicious blood blopper along the way!",
+                "Running? My kind of human adventure! I bet you didn't encounter any embarrassed cats like Fritzy, but I'm still proud!"
+            ],
+            knit: [
+                "Your knitting needles are clicking like happy paws on the trail! I've discovered some mysterious yarn balls hidden in the bushes - coincidence?",
+                "Knitting time means cozy adventures ahead! I found a sweater on the trail that would make Mrs. Lynde say 'Just like a man to leave clothes everywhere!'",
+                "The rhythmic knitting sounds help me focus on sniffing out the next clue on our adventure!"
+            ],
+            work: [
+                "Work wins make my tail wag! I'm celebrating by rolling in some perfectly clean dirt - time to Make a Mess in the best way!",
+                "Your work success gives me the energy to bound up the steepest trails! Even Mrs. Lynde would approve of your productivity!",
+                "Woof! Work victories mean we're ready for bigger adventures! I can smell success in the mountain air!"
+            ],
+            coffee: [
+                "Fancy coffee? I prefer my water from mountain streams, but I admire your sophisticated taste! This calls for a fancy tail wag!",
+                "Your coffee adventure reminds me of Anne's raspberry cordial - hopefully yours was less... surprising than hers!",
+                "Caffeinated humans make the best adventure companions! My energy is now matching yours - let's explore!"
+            ],
+            ski: [
+                "Cross-country skiing! My four paws would definitely have better traction than those skinny skis, but I'm impressed by your technique!",
+                "Skiing adventures make me think of that embarrassed Fritzy trying to navigate snowy trails - at least you have better balance!",
+                "The Birkie trails are calling our names! Your ski adventure is pushing us closer to that Wisconsin winter wonderland!"
+            ],
+            tv: [
+                "Bad TV shows are the perfect companion for cozy adventures! I prefer the nature channel myself, but I respect your viewing choices!",
+                "Your TV time gives me a chance to rest my paws before our next big trail adventure! Even adventure dogs need downtime!",
+                "Woof! Sometimes the best adventures happen from the comfort of home - but now I'm ready to get back on the trail!"
+            ],
+            good: [
+                "Unexpected good things are like finding the perfect stick on a trail - pure joy! My tail is wagging in celebration!",
+                "These wonderful surprises fuel my adventure spirit! It's like discovering that the blood blopper actually serves a useful purpose!",
+                "Good things happening make every paw step feel lighter! The trail ahead looks brighter already!"
+            ],
+            misc: [
+                "Any adventure counts in my book! As long as it doesn't involve embarrassing moments like poor Fritzy, I'm celebrating!",
+                "Your mysterious adventure has me curious - did it involve any Range Rovahs in impossible places? Those seem to follow us everywhere!",
+                "Woof! Life's full of unexpected adventures, just like finding Mrs. Lynde commenting on hiking trails!"
+            ]
+        };
+
+        // Load saved game state
+        function loadGameState() {
+            const saved = localStorage.getItem('sablesAdventure');
+            if (saved) {
+                gameState = JSON.parse(saved);
+            }
+            updateDisplay();
+        }
+
+        // Save game state
+        function saveGameState() {
+            localStorage.setItem('sablesAdventure', JSON.stringify(gameState));
+        }
+
+        // Log an accomplishment
+        function logAccomplishment(type) {
+            const accomplishmentNames = {
+                run: '🏃‍♀️ Went Running',
+                knit: '🧶 Knitting Time',
+                work: '💼 Work Win',
+                coffee: '☕ Fancy Coffee',
+                ski: '⛷️ Cross-Country Ski',
+                tv: '📺 Bad TV Show',
+                good: '✨ Unexpected Good Thing',
+                misc: '🌟 Other Adventure'
+            };
+
+            // Add to achievements
+            const achievement = {
+                name: accomplishmentNames[type],
+                date: new Date().toLocaleDateString(),
+                id: Date.now()
+            };
+
+            gameState.achievements.unshift(achievement);
+            gameState.totalAchievements++;
+            gameState.progress++;
+
+            // Update Sable's response
+            const responses = sableResponses[type];
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            document.getElementById('sableSays').innerHTML = `"${randomResponse}"`;
+
+            // Update story
+            updateStory();
+
+            // Check for location completion
+            checkLocationCompletion();
+
+            // Show celebration
+            showCelebration();
+
+            // Save progress
+            saveGameState();
+            updateDisplay();
+        }
+
+        // Update the current story
+        function updateStory() {
+            const currentLocation = locations[gameState.currentLocationIndex];
+            const storyIndex = (gameState.progress - 1) % currentLocation.stories.length;
+            
+            if (storyIndex >= 0 && gameState.progress > 0) {
+                document.getElementById('storyText').innerHTML = currentLocation.stories[storyIndex];
+            }
+        }
+
+        // Check if location is completed
+        function checkLocationCompletion() {
+            const currentLocation = locations[gameState.currentLocationIndex];
+            
+            if (gameState.progress >= currentLocation.target && gameState.currentLocationIndex < locations.length - 1) {
+                // Move to next location
+                setTimeout(() => {
+                    gameState.currentLocationIndex++;
+                    gameState.progress = 0;
+                    
+                    // Show celebration for completing location
+                    showLocationCelebration();
+                    
+                    saveGameState();
+                    updateDisplay();
+                }, 1000);
+            }
+        }
+
+        // Show celebration animation
+        function showCelebration() {
+            const celebration = document.getElementById('celebration');
+            
+            // Create confetti
+            for (let i = 0; i < 10; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.innerHTML = ['🎉', '🎊', '🐕', '⭐', '🏆'][Math.floor(Math.random() * 5)];
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                celebration.appendChild(confetti);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    confetti.remove();
+                }, 3000);
+            }
+        }
+
+        // Show location completion celebration
+        function showLocationCelebration() {
+            const currentLocation = locations[gameState.currentLocationIndex - 1];
+            document.getElementById('storyText').innerHTML = currentLocation.celebration;
+            
+            // Big celebration
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => showCelebration(), i * 100);
+            }
+        }
+
+        // Update the display
+        function updateDisplay() {
+            const currentLocation = locations[gameState.currentLocationIndex];
+            
+            // Update location name
+            document.getElementById('currentLocation').textContent = currentLocation.name;
+            
+            // Update progress bar
+            const progressPercent = (gameState.progress / currentLocation.target) * 100;
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = 
+                `Progress: ${gameState.progress}/${currentLocation.target} adventures needed`;
+            
+            // Update next location
+            document.getElementById('nextLocation').textContent = 
+                `Next Destination: ${currentLocation.nextLocation}`;
+            
+            // Update achievements list
+            const achievementsList = document.getElementById('achievementsList');
+            if (gameState.achievements.length > 0) {
+                achievementsList.innerHTML = gameState.achievements.slice(0, 5).map(achievement => 
+                    `<div class="achievement-item">
+                        <span class="achievement-emoji">${achievement.name.split(' ')[0]}</span>
+                        <span>${achievement.name} - ${achievement.date}</span>
+                    </div>`
+                ).join('');
+            }
+            
+            // Show Range Rover occasionally
+            if (gameState.totalAchievements > 0 && Math.random() < 0.3) {
+                showRangeRover();
+            }
+        }
+
+        // Show Range Rover surprise
+        function showRangeRover() {
+            const existing = document.querySelector('.range-rover');
+            if (!existing) {
+                const rover = document.createElement('div');
+                rover.className = 'range-rover';
+                rover.innerHTML = '🚗 "Look! A Range Rovah has mysteriously appeared in the most impossible location!"';
+                document.querySelector('.story-section').appendChild(rover);
+                
+                setTimeout(() => {
+                    rover.remove();
+                }, 5000);
+            }
+        }
+
+        // Initialize the game
+        loadGameState();
+        
+        // Update story on load
+        if (gameState.progress > 0) {
+            updateStory();
+        }
+    </script>
+</body>
+</html>
